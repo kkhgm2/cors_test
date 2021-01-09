@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+
+        const url = "http://localhost:3030/corsTest";
+        const simpleOpt = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            mode: "cors",
+            body: "cors test=ddddd"
+        }
+
+        const preflightOpt = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/jon",
+            },
+            mode: "cors",
+            body: JSON.stringify({cors: "please allow me!!!"})
+        }
+
+        const simple = function() {
+            fetch(url, simpleOpt)
+            .then(data => {
+                console.log(data.json());
+                console.log(data);
+            }).catch(err => console.log(err));
+        } 
+
+        //一時サーバに単純リクエスト外を投げる（ブラウザがoptions と判断？
+        // Optionsが帰ってきたとわかったら、単純リクスト
+        const preflight = function() {
+            fetch(url, preflightOpt)
+            .then(data => {
+                console.log(data.json());
+                console.log(data);
+            }).catch(err => console.log(err));
+        } 
+
+</script>
+</head>
+<body>
+    <h1>CORS TEST</h1>
+
+<form action="./test2?今日の天気=晴れ！！" method="POST" enctype="application/text">
+    <input type="text" id="name" name="name">
+    <input type="text" id="age" name="age">
+    <input type="submit" value="button">
+</form>
+
+<button onclick="simple()">simple request</button>
+<button onclick="preflight()">preflight request</button>
+
+</body>
+</html>
